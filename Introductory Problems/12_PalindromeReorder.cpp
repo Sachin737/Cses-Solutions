@@ -43,16 +43,40 @@ using omulset = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statis
 //  .order_of_key(x)  : number of elements strictly smaller than x in the set
 // -----------------------------------------------------------------------------------
 
-ll k;
+
 
 void brrrr()
 {
-    cin >> k;
+    string s;cin>>s;
+    ll n=s.size();
+    map<char,ll>mp;
+    for(auto &x:s)mp[x]++;
+    string tmp = s;
+    ll i=0,j=n-1;
+    ll cnt=0;
+    for(auto &x:mp){
+        if(x.ss%2ll){
+            cnt++;
+            if(cnt>1 || !(n&1ll)){
+                cout<<"NO SOLUTION\n";
+                return;
+            }
 
-    cout<<0<<"\n";
-    for(ll i=2;i<=k;i++){
-        cout << (i*i)*(i*i-1)/2ll - 4*(i-2)*(i-1) << "\n";
-    }    
+            while(x.ss!=1ll){
+                tmp[i++] = x.fs;
+                tmp[j--] = x.fs;
+                x.ss-=2;
+            }
+            tmp[n/2] = x.fs;
+        }else{
+            while(x.ss){
+                tmp[i++] = x.fs;
+                tmp[j--] = x.fs;
+                x.ss-=2;
+            }
+        }
+    }
+    cout<<tmp<<"\n";
     
 
 

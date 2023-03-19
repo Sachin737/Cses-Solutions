@@ -43,17 +43,22 @@ using omulset = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statis
 //  .order_of_key(x)  : number of elements strictly smaller than x in the set
 // -----------------------------------------------------------------------------------
 
-ll k;
+
 
 void brrrr()
 {
-    cin >> k;
+    ll a,b;cin>>a>>b;
 
-    cout<<0<<"\n";
-    for(ll i=2;i<=k;i++){
-        cout << (i*i)*(i*i-1)/2ll - 4*(i-2)*(i-1) << "\n";
-    }    
-    
+    // pile1 : [x->2, y->1]
+    // pile2 : [y->2, x->1]
+
+    // 2x+y=a,2y+x=b
+
+    if((2*a>=b && (2*a - b)%3ll==0) && (2*b>=a && (2*b - a)%3ll==0)){
+        yes;
+    }    else{
+        no;
+    }
 
 
 
@@ -62,8 +67,8 @@ void brrrr()
 int main()
 {
     fast;
-    ll t=1;
-//    cin >> t;
+    ll t;
+   cin >> t;
     for (ll i = 1; i <= t; i++)
     {
         brrrr();

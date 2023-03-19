@@ -43,16 +43,59 @@ using omulset = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statis
 //  .order_of_key(x)  : number of elements strictly smaller than x in the set
 // -----------------------------------------------------------------------------------
 
-ll k;
+
 
 void brrrr()
 {
-    cin >> k;
+    ll n;cin>>n;
+    vll a,b;
+    ll sm = n*(n+1)/2ll;
+    if(sm&1ll){
+        cout << "NO\n";
+    }else{
+        if(n%4ll==0){
+            cout<<"YES\n";
+            for(ll i=1;i<=n/2;i++){
+                if(i&1ll){
+                    a.push_back(i);
+                    a.push_back(n-i+1);
+                }else{
+                    b.push_back(i);
+                    b.push_back(n-i+1);
+                }
+            }
+        }else{
+            if((n-3)%4==0){
+                cout << "YES\n";
+                a.push_back(1);
+                a.push_back(2);
+                b.push_back(3);
+                ll i=4,j=n;
+                while(i<j){
+                    if(i&1ll){
+                        a.push_back(i);
+                        a.push_back(j);
+                    }else{
+                        b.push_back(i);
+                        b.push_back(j);
+                    }
+                    i++,j--;
+                }
+            }else{
+                cout << "NO\n";
+            }
+        }
+    }
+    if(a.size()){
+        cout<<a.size()<<"\n";
+        for(auto &x:a)cout<<x<<" ";
+        cout<<"\n";
 
-    cout<<0<<"\n";
-    for(ll i=2;i<=k;i++){
-        cout << (i*i)*(i*i-1)/2ll - 4*(i-2)*(i-1) << "\n";
-    }    
+        cout<<b.size()<<"\n";
+        for(auto &x:b)cout<<x<<" ";
+        cout<<"\n";
+    }
+
     
 
 

@@ -42,12 +42,44 @@ using omulset = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statis
 //  .find_by_order(x) : index of the x element in the set starting from 0
 //  .order_of_key(x)  : number of elements strictly smaller than x in the set
 // -----------------------------------------------------------------------------------
-ll n;
-string s;
+
+ll n,m;
+vector<string>v;
+vll dx = {-1,0,1,0};
+vll dy = {0,-1,0,1};
+
+bool valid(ll i,ll j){
+    return (i>=0&&j>=0&&i<n&&j<m);
+}
+
+void dfs(ll i,ll j){
+    v[i][j] = '#';
+    for(ll k=0;k<4;k++){
+        ll ii = i+dx[k];
+        ll jj = j+dy[k];
+        if(valid(ii,jj)&&v[ii][jj]=='.'){
+            dfs(ii,jj);
+        }
+    }
+}
 
 void brrrr()
 {
-    
+    cin >> n >> m;
+    v.assign(n,"");
+    for(auto &x:v) cin >> x;
+
+    ll res = 0;
+    for(ll i=0;i<n;i++){
+        for(ll j=0;j<m;j++){
+            if(v[i][j]=='.'){
+                dfs(i,j);
+                res++;
+            }
+        }
+    }
+    cout << res << "\n";
+
 
 
 }

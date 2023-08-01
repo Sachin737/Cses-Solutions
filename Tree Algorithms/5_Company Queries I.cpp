@@ -12,6 +12,8 @@ void dfs(int node,int par){
     for(int i=1;i<19;i++){
         if(up[node][i-1] != -1){
             up[node][i] = up[up[node][i-1]][i-1];
+        }else{
+            up[node][i] = -1;
         }
     }
 

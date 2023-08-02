@@ -3,20 +3,6 @@
 #define int long long
 using namespace std;
 
-int n,q;
-vector<vector<int>>v;
-vector<int>val,euler;
-
-void EulerTour(int node,int par){
-    euler.push_back(node);
-    for(auto &x:v[node]){
-        if(x!=par){
-            EulerTour(x,node);
-        }
-    }
-    euler.push_back(node);
-}
-
 
 struct SegTree{
     int size;
@@ -58,7 +44,7 @@ struct SegTree{
     void update(int node,int l,int r,int idx,int nval){
         if(l>r)return;
         if(l==r){
-            seg[node] = nval;
+            seg[node] += nval;
             return;
         }
         int m = (l + r)/2;
@@ -71,7 +57,29 @@ struct SegTree{
     }
 };
 
+int n,q;
+vector<vector<int>>v;
+vector<int>val,euler,dp;
 
+void EulerTour(int node,int par){
+    euler.push_back(node);
+    for(auto &x:v[node]){
+        if(x!=par){
+            EulerTour(x,node);
+        }
+    }
+    euler.push_back(node);
+}
+
+void dfs(int node,int par){
+    dp[node] += val[node];
+    for(auto &x:v[node]){
+        if(x!=par){
+            dp[x] += dp[node];
+            dfs(x,node);
+        }
+    }
+}
 
 
 int32_t main()
@@ -91,27 +99,30 @@ int32_t main()
     EulerTour(1,0);
 
     vector<vector<int>>idx(2*n+5,vector<int>());
-    for(int i=0;i<euler.size();i++){
+
+    int m = euler.size();
+    for(int i=0;i<m;i++){
         idx[euler[i]].push_back(i);
     }
 
-    int m = euler.size();
+    dp.assign(n+1,0);
+    dfs(1,0);
+
     euler.assign(m,0);
     SegTree seg(euler);
-
-    for(int i=1;i<=n;i++){
-        seg.update(0,0,m-1,idx[i][0],val[i]);
-    }
 
     while(q--){
         int t; 
         cin >> t;
         if(t==1){
             int s,x; cin >> s >> x;
-            seg.update(0,0,m-1,idx[s][0],x);
+            int dif = x - val[s];
+            seg.update(0,0,m-1,idx[s][0],dif);
+            seg.update(0,0,m-1,idx[s][1],-dif);
+            val[s] = x;
         }else{
             int s; cin >> s;
-            cout << seg.query(0,0,m-1,idx[s][0],idx[s][1]) << "\n";
+            cout << dp[s] + seg.query(0,0,m-1,0,idx[s][0]) << "\n";
         }
     }
 
